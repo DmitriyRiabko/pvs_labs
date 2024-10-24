@@ -16,14 +16,12 @@ DB_HOST = "127.0.0.1"
 DB_PORT = "5432"
 
 
-# Ensure the table exists in the database
 def ensure_table_exists():
     conn = psycopg2.connect(
         database=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT
     )
     cursor = conn.cursor()
 
-    # Create table if it doesn't exist
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS user_counter (
@@ -34,7 +32,6 @@ def ensure_table_exists():
     """
     )
 
-    # Insert initial record if not exists
     cursor.execute("SELECT COUNT(*) FROM user_counter WHERE user_id = 1")
     if cursor.fetchone()[0] == 0:
         cursor.execute("INSERT INTO user_counter (counter, version) VALUES (0, 0)")
@@ -44,14 +41,12 @@ def ensure_table_exists():
     conn.close()
 
 
-# Function to reset the counter after each test
 def reset_counter():
     conn = psycopg2.connect(
         database=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT
     )
     cursor = conn.cursor()
 
-    # Reset the counter to 0
     cursor.execute("UPDATE user_counter SET counter = 0, version = 0 WHERE user_id = 1")
     conn.commit()
 
@@ -59,7 +54,6 @@ def reset_counter():
     conn.close()
 
 
-# Main function to update the counter
 def update_counter(query_func, thread_id):
     conn = psycopg2.connect(
         database=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT
@@ -74,7 +68,6 @@ def update_counter(query_func, thread_id):
     conn.close()
 
 
-# SQL queries for different scenarios with logging of the counter value
 def lost_update_query(cursor, thread_id, iteration):
     cursor.execute("SELECT counter FROM user_counter WHERE user_id = 1")
     counter = cursor.fetchone()[0]
@@ -119,13 +112,12 @@ def measure_time(query_func, label):
     end_time = time.time()
     logging.info(f"{label} completed in {end_time - start_time:.2f} seconds")
 
-    # Reset the counter after the test
+ 
     logging.info(f"Counter reset after {label}.")
 
 
-# Main logic
 if __name__ == "__main__":
-    logging.info("Starting the program...")
+    logging.info("Starting...")
 
     ensure_table_exists()
 
