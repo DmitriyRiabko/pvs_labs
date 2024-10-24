@@ -1,0 +1,12 @@
+
+(without pessimistic)
+
+
+Starting increment without locks...
+Increment without locks completed in 71.57 seconds
+Final counter value (without locks): 41357
+Starting increment with optimistic locking...
+Increment with optimistic locking completed in 552.98 seconds
+Final counter value (with optimistic locking): 100000
+Starting increment with IAtomicLong...
+Increment with IAtomicLong completed in 9.54 seconds

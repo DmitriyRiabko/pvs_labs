@@ -3,6 +3,7 @@ import time
 import logging
 from threading import Thread
 
+
 NODES = [
     "127.0.0.1:5701",
     "127.0.0.1:5702",
@@ -17,14 +18,13 @@ client = hazelcast.HazelcastClient(
     cluster_members=NODES,
 )
 
-# Get Distributed Map
 distributed_map = client.get_map("my-distributed-map").blocking()
 
-# Get IAtomicLong for CP Subsystem
+
 atomic_long = client.cp_subsystem.get_atomic_long("my-atomic-long").blocking()
 
 
-# Function for increment without locks
+
 def increment_counter():
     key = "counter"
     for _ in range(10000):
@@ -34,11 +34,10 @@ def increment_counter():
         distributed_map.put(key, counter + 1)
 
 
-# Function for increment with pessimistic locking
 def increment_counter_with_pessimistic_lock():
     key = "counter"
     for _ in range(10000):
-        distributed_map.lock(key)  # Pessimistic lock
+        distributed_map.lock(key) 
         try:
             counter = distributed_map.get(key)
             if counter is None:
@@ -48,7 +47,7 @@ def increment_counter_with_pessimistic_lock():
             distributed_map.unlock(key)
 
 
-# Function for increment with optimistic locking
+
 def increment_counter_with_optimistic_lock():
     key = "counter"
     for _ in range(10000):
@@ -59,13 +58,13 @@ def increment_counter_with_optimistic_lock():
                 break
 
 
-# Function for increment using IAtomicLong
+
 def increment_atomic_long():
     for _ in range(10000):
         atomic_long.increment_and_get()
 
 
-# Function to run threads for any increment function
+
 def run_threads(increment_func, description):
     threads = []
     start_time = time.time()
@@ -96,7 +95,7 @@ final_value = distributed_map.get("counter")
 print(f"Final counter value (with pessimistic locking): {final_value}")
 
 print("Starting increment with optimistic locking...")
-distributed_map.put("counter", 0)  # Reset counter
+distributed_map.put("counter", 0) 
 run_threads(increment_counter_with_optimistic_lock, "Increment with optimistic locking")
 final_value = distributed_map.get("counter")
 print(f"Final counter value (with optimistic locking): {final_value}")
