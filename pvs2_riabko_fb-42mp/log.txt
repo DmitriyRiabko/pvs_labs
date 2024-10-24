@@ -1,0 +1,15 @@
+dmitriy@Dmitrys-MacBook-Air pvs2_riabko_fb-42mp % python3 PGclient.py   
+2024-10-24 13:24:34,560 - INFO - Starting...
+2024-10-24 13:24:34,617 - INFO - Starting test: Lost-update
+2024-10-24 13:25:04,624 - INFO - Lost-update completed in 30.01 seconds
+2024-10-24 13:25:04,624 - INFO - Counter reset after Lost-update.
+2024-10-24 13:25:04,632 - INFO - Starting test: In-place Update
+2024-10-24 13:25:31,468 - INFO - In-place Update completed in 26.84 seconds
+2024-10-24 13:25:31,468 - INFO - Counter reset after In-place Update.
+2024-10-24 13:25:31,477 - INFO - Starting test: Row-level Locking
+2024-10-24 13:26:06,195 - INFO - Row-level Locking completed in 34.72 seconds
+2024-10-24 13:26:06,195 - INFO - Counter reset after Row-level Locking.
+2024-10-24 13:26:06,202 - INFO - Starting test: Optimistic Concurrency Control
+2024-10-24 13:26:55,030 - INFO - Optimistic Concurrency Control completed in 48.83 seconds
+2024-10-24 13:26:55,032 - INFO - Counter reset after Optimistic Concurrency Control.
+2024-10-24 13:26:55,032 - INFO - All tests completed.
