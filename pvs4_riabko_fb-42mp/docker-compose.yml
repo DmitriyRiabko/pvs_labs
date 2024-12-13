@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  mongo1:
+    image: mongo
+    container_name: mongo1
+    command: --replSet rs0
+    ports:
+      - "27017:27017"
+    networks:
+      - host
+  mongo2:
+    image: mongo
+    container_name: mongo2
+    command: --replSet rs0
+    ports:
+      - "27018:27017"
+    networks:
+      - host
+  mongo3:
+    image: mongo
+    container_name: mongo3
+    command: --replSet rs0
+    ports:
+      - "27019:27017"
+    networks:
+      - host
+networks:
+  host:
