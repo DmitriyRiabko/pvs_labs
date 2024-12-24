@@ -1,0 +1,62 @@
+version: '3.9'
+services:
+  cassandra_node1:
+    image: cassandra:4.1
+    container_name: cassandra_node1
+    ports:
+      - "9042:9042" # Клиентский порт
+    environment:
+      CASSANDRA_CLUSTER_NAME: "MyCluster"
+      CASSANDRA_NUM_TOKENS: 256
+      CASSANDRA_SEEDS: "cassandra_node1"
+      CASSANDRA_LISTEN_ADDRESS: "cassandra_node1"
+      CASSANDRA_BROADCAST_ADDRESS: "cassandra_node1"
+      CASSANDRA_ENDPOINT_SNITCH: "GossipingPropertyFileSnitch"
+      MAX_HEAP_SIZE: "512M" # Ограничение памяти JVM
+      HEAP_NEWSIZE: "100M"  # Размер памяти для "молодого" поколения
+    networks:
+      cassandra_network:
+        aliases:
+          - cassandra_node1
+
+  cassandra_node2:
+    image: cassandra:4.1
+    container_name: cassandra_node2
+    environment:
+      CASSANDRA_CLUSTER_NAME: "MyCluster"
+      CASSANDRA_NUM_TOKENS: 256
+      CASSANDRA_SEEDS: "cassandra_node1"
+      CASSANDRA_LISTEN_ADDRESS: "cassandra_node2"
+      CASSANDRA_BROADCAST_ADDRESS: "cassandra_node2"
+      CASSANDRA_ENDPOINT_SNITCH: "GossipingPropertyFileSnitch"
+      MAX_HEAP_SIZE: "512M"
+      HEAP_NEWSIZE: "100M"
+    depends_on:
+      - cassandra_node1
+    networks:
+      cassandra_network:
+        aliases:
+          - cassandra_node2
+
+  cassandra_node3:
+    image: cassandra:4.1
+    container_name: cassandra_node3
+    environment:
+      CASSANDRA_CLUSTER_NAME: "MyCluster"
+      CASSANDRA_NUM_TOKENS: 256
+      CASSANDRA_SEEDS: "cassandra_node1"
+      CASSANDRA_LISTEN_ADDRESS: "cassandra_node3"
+      CASSANDRA_BROADCAST_ADDRESS: "cassandra_node3"
+      CASSANDRA_ENDPOINT_SNITCH: "GossipingPropertyFileSnitch"
+      MAX_HEAP_SIZE: "512M"
+      HEAP_NEWSIZE: "100M"
+    depends_on:
+      - cassandra_node1
+    networks:
+      cassandra_network:
+        aliases:
+          - cassandra_node3
+
+networks:
+  cassandra_network:
+    driver: bridge
